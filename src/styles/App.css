@@ -1,0 +1,12 @@
+html, body {
+  background-color: #eee;
+  font: 14px/20px 'Helvetica', Arial, sans-serif;
+}
+
+body {
+  padding-top: 75px;
+}
+
+* {
+  box-sizing: border-box;
+}
