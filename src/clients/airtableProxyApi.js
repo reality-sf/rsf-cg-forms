@@ -11,7 +11,7 @@ http.interceptors.request.use((config) => {
   if (token === null) {
     return config;
   }
-  config.headers.Authorization = `Bearer ${token}`;
+  config.headers.Authorization = token;
   return config;
 });
 
@@ -22,12 +22,22 @@ class AirtableProxyApi {
   }
 
   async login (token) {
-    const { data } = await http.put(`/login`);
+    const { data } = await http.put(`/login`, { token });
     localStorage.setItem('jwt', data.jwt);
   }
 
   async getMe () {
     const { data } = await http.get('/me');
+    return data;
+  }
+
+  async listCommunityGroups () {
+    const { data } = await http.get(`/community_groups`);
+    return data;
+  }
+
+  async updateCommunityGroup (group) {
+    const { data } = await http.put(`/community_groups/${group['Record ID']}`, group);
     return data;
   }
 }

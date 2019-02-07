@@ -1,10 +1,7 @@
-import styles from "../styles/InputGroup.module.css";
-import React from "react";
+import styled from "styled-components";
 
-const InputGroup = (props) => {
-  return <div className={styles.inputGroup}>
-    {props.children}
-  </div>
-};
+const InputGroup = styled.div`
+  padding: 0 0 6px 0;
+`;
 
 export default InputGroup;

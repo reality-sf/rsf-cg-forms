@@ -1,4 +1,6 @@
-.input {
+import styled from "styled-components";
+
+const TextArea = styled.textarea`
   font-family: Helvetica;
   font-size: 14px;
   color: #5d5d5d !important;
@@ -7,12 +9,10 @@
   padding: 10px;
   background: #fff;
   width: 100%;
-  border: 2px solid #d0d0d0;
+  border: 1px solid #d0d0d0;
   border-radius: 3px;
   -webkit-appearance: none;
-}
+  display: block;
+`;
 
-.input:focus {
-  border-color: #222;
-  outline: none;
-}
+export default TextArea;
