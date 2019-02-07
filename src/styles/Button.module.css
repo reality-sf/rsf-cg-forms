@@ -22,3 +22,8 @@
 .button:hover {
   background-color: #444;
 }
+
+.button:disabled {
+  background-color: #bbb;
+  cursor: initial;
+}
