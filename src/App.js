@@ -5,7 +5,7 @@ import "./styles/App.css";
 import airtableProxyApi from "./clients/airtableProxyApi";
 import queryString from "query-string";
 import { someAsync } from './util/promises';
-import { formWrapper } from './styles/Form.module.css'
+import FormBody from "./components/FormBody";
 import BarLoader from 'react-spinners/BarLoader';
 import { css } from '@emotion/core';
 import CommunityGroupForm from "./containers/CommunityGroupForm";
@@ -70,9 +70,9 @@ class App extends Component {
   render () {
     return <div className="container">
       <Masthead title="Community Group Management Form" />
-      <div className={formWrapper}>
+      <FormBody>
         {this.renderFormBody()}
-      </div>
+      </FormBody>
     </div>
   }
 }

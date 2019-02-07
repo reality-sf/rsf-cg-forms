@@ -1,3 +1,7 @@
+/**
+ * Shared stylesheet for all components. Note: Most components are styled using [styled components](https://www.styled-components.com).
+ */
+
 html, body {
   background-color: #eee;
   font: 14px/20px 'Helvetica', Arial, sans-serif;
