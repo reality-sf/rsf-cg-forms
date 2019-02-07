@@ -56,7 +56,12 @@ export default class CommunityGroupForm extends Component {
   /**
    * Utility method to handle synthetic events
    */
-  handleChangeInput = this.handleChangeField((evt) => evt.target.value);
+  handleChangeInput = this.handleChangeField((evt) => {
+    if (evt.target.type === 'number') {
+      return parseInt(evt.target.value);
+    }
+    return evt.target.value;
+  });
 
   /**
    * Normalize a group to what we want to expose to the user.
