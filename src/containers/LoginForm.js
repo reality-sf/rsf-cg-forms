@@ -48,8 +48,6 @@ export default class LoginForm extends Component {
   renderSuccess () {
     return <>
       Great! Check your email at <b>{this.state.email}</b> for a link to continue.
-      <br />
-      <br />
     </>
   }
 
@@ -61,6 +59,11 @@ export default class LoginForm extends Component {
         <Label htmlFor="email">Email</Label>
         <Input type="email" id="email" value={this.state.email} onChange={this.handleInputChange} required />
       </InputGroup>
+      <LaddaButton
+        loading={this.state.loading}
+        data-color="blue"
+        {...(this.state.success ? { disabled: true } : {})}
+      >Submit</LaddaButton>
     </>
   }
 
@@ -69,7 +72,6 @@ export default class LoginForm extends Component {
       {
         this.state.success ? this.renderSuccess() : this.renderFormBody()
       }
-      <LaddaButton loading={this.state.loading} {...(this.state.success ? { disabled: true } : {})}>Submit</LaddaButton>
     </form>
   }
 }
