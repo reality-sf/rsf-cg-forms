@@ -164,6 +164,8 @@ export default class CommunityGroupForm extends Component {
         <Label htmlFor="meeting-address">What is your meeting address?</Label>
         <TextArea id="meeting-address" value={group['Meeting Address']} onChange={this.handleChangeInput('Meeting Address')}></TextArea>
       </InputGroup>
+      <div>If you would like to inform us of leadership or other changes or requests, please send an email to <a href="mailto:cg@realitysf.com" target="_blank" rel="noopener noreferrer">cg@realitysf.com</a></div>
+      <br/>
       { this.renderErrorMessage() }
       <LaddaButton
         loading={this.state.loading}
