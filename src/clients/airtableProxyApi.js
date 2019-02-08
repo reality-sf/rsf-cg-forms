@@ -11,7 +11,7 @@ http.interceptors.request.use((config) => {
   if (token === null) {
     return config;
   }
-  config.headers.Authorization = token;
+  config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 
@@ -22,6 +22,9 @@ class AirtableProxyApi {
   }
 
   async login (token) {
+    if (!token) {
+      return Promise.reject(new Error('Token not found'));
+    }
     const { data } = await http.put(`/login`, { token });
     localStorage.setItem('jwt', data.jwt);
   }

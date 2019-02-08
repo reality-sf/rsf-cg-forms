@@ -7,7 +7,8 @@ import InputGroup from "../components/InputGroup";
 import MeetingNight from "../components/MeetingNight";
 import TextArea from "../components/TextArea";
 import airtableProxyApi from "../clients/airtableProxyApi";
-import LaddaButton from "react-ladda";
+import LaddaButton, { S, XS } from "react-ladda";
+import ErrorMessage from "../components/ErrorMessage";
 
 const identity = (value) => value;
 
@@ -83,13 +84,39 @@ export default class CommunityGroupForm extends Component {
 
   handleChangeMeetingNight = this.handleChangeField((option) => option.value)('Meeting Night');
 
+  handleReload = () => {
+    window.location.reload()
+  }
+
+  renderErrorMessage () {
+    const error = this.state.error;
+    if (!error) {
+      return;
+    }
+    if (error.response && error.response.status === 403) {
+      return <ErrorMessage>The current session has expired. To continue, please reload the page to be able to get another email link.
+        <br />
+        <br />
+        <button onClick={this.handleReload}>Reload</button>
+      </ErrorMessage>
+    }
+    if (error.response) {
+      return <ErrorMessage>Uh oh, something went wrong when trying to submit your changes. The HTTP call responded with unexpected status {error.response.status}. Response body: {JSON.stringify(error.response.data)}</ErrorMessage>
+    }
+    return <ErrorMessage>Uh oh, an unexpected error occured. Details: <pre>{error.message}</pre></ErrorMessage>
+  }
+
   renderSuccessMessage () {
     if (!this.state.success) {
       return null;
     }
     return <>
-      <p>Thank you for updating! If you have more changes that you'd like to make, simply refresh the page.</p>
-      <br />
+      <p>Thank you for updating!</p>
+      <LaddaButton
+        onClick={this.handleReload}
+        data-color="blue"
+        data-size={S}
+      >Make Additional Changes</LaddaButton>
     </>
   }
 
@@ -137,6 +164,13 @@ export default class CommunityGroupForm extends Component {
         <Label htmlFor="meeting-address">What is your meeting address?</Label>
         <TextArea id="meeting-address" value={group['Meeting Address']} onChange={this.handleChangeInput('Meeting Address')}></TextArea>
       </InputGroup>
+      { this.renderErrorMessage() }
+      <LaddaButton
+        loading={this.state.loading}
+        data-color="blue"
+        data-size={S}
+        {...(this.state.success ? { disabled: true } : {})}
+      >Submit</LaddaButton>
     </>;
   }
 
@@ -145,11 +179,6 @@ export default class CommunityGroupForm extends Component {
       { this.renderSuccessMessage() }
       { this.renderGroupSelect() }
       { this.renderCgForm() }
-      <LaddaButton
-        loading={this.state.loading}
-        data-color="blue"
-        {...(this.state.success ? { disabled: true } : {})}
-      >Submit</LaddaButton>
     </form>;
   }
 }

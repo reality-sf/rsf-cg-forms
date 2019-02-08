@@ -4,7 +4,7 @@ import Label from "../components/Label";
 import Input from "../components/Input";
 import React from "react";
 import airtableProxyApi from "../clients/airtableProxyApi";
-import LaddaButton from "react-ladda";
+import LaddaButton, { S } from "react-ladda";
 import ErrorMessage from "../components/ErrorMessage";
 
 export default class LoginForm extends Component {
@@ -12,11 +12,11 @@ export default class LoginForm extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      email: '',
+      email: this.initialEmail(),
       success: false,
       error: null,
       loading: false,
-      errorEmail: ''
+      errorEmail: '',
     };
   }
 
@@ -27,12 +27,32 @@ export default class LoginForm extends Component {
       await airtableProxyApi.sendEmailLink(this.state.email);
       this.setState({ success: true, loading: false });
     } catch (err) {
-      this.setState({ error: err, loading: false, success: false, errorEmail: this.state.email });
+      this.setState({
+        error: err,
+        loading: false,
+        success: false,
+        errorEmail: this.state.email
+      });
     }
   }
 
   handleInputChange = (event) => {
     this.setState({ email: event.target.value });
+  }
+
+  getJwtClaims () {
+    const token = localStorage.jwt;
+    if (!token) {
+      return {};
+    }
+    const [, claims] = token.split('.');
+    const parsed = JSON.parse(atob(claims));
+    return parsed;
+  }
+
+  initialEmail () {
+    const claims = this.getJwtClaims();
+    return claims.email || '';
   }
 
   renderErrorMessage () {
@@ -62,6 +82,7 @@ export default class LoginForm extends Component {
       <LaddaButton
         loading={this.state.loading}
         data-color="blue"
+        data-size={S}
         {...(this.state.success ? { disabled: true } : {})}
       >Submit</LaddaButton>
     </>
