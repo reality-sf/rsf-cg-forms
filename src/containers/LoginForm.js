@@ -40,7 +40,7 @@ export default class LoginForm extends Component {
       return null;
     }
     if (this.state.error.response && this.state.error.response.status === 404) {
-      return <ErrorMessage>We were unable to find the email <b>{this.state.errorEmail}</b> in our system. Is it correct? If so, please email Nkechi at <b><a href="mailto:nkechi@realitysf.com">nkechi@realitysf.com</a></b> so we can get you into the system.</ErrorMessage>
+      return <ErrorMessage>We could not find a CG associated with this email. Please try a different email. If continue to have problems, contact <b><a href="mailto:nkechi@realitysf.com">cg@realitysf.com</a></b>.</ErrorMessage>
     }
     return <ErrorMessage>An unknown error has occured.</ErrorMessage>
   }
