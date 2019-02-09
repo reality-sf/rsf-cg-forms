@@ -9,6 +9,7 @@ import airtableProxyApi from "../clients/airtableProxyApi";
 import LaddaButton, { S } from "react-ladda";
 import ErrorMessage from "../components/ErrorMessage";
 import FormHeader from "../components/FormHeader";
+import ButtonLink from "../components/ButtonLink";
 
 const identity = (value) => value;
 
@@ -146,7 +147,7 @@ export default class CommunityGroupForm extends Component {
     if (this.props.groups.length <= 1) {
       return null;
     }
-    return <a onClick={this.handleReturnSelectGroup} href="#">Edit another community group</a>
+    return <ButtonLink onClick={this.handleReturnSelectGroup}>Edit another community group</ButtonLink>
   }
 
   renderCgForm () {
@@ -187,7 +188,7 @@ export default class CommunityGroupForm extends Component {
         <Label htmlFor="meeting-address">What are the cross streets?</Label>
         <TextArea id="meeting-address" value={group['Cross Streets']} onChange={this.handleChangeInput('Cross Streets')}></TextArea>
       </InputGroup>
-      <div>If you would like to inform us of leadership or other changes or requests, please send an email to <a href="mailto:cg@realitysf.com" target="_blank" rel="noopener noreferrer">cg@realitysf.com</a></div>
+      <div>If you would like to inform us of leadership or other changes or requests, please send an email to <a href="mailto:cg@realitysf.com" target="_blank" rel="noopener noreferrer">cg@realitysf.com</a>.</div>
       <br/>
       { this.renderErrorMessage() }
       <LaddaButton
