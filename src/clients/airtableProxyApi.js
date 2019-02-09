@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const AIRTABLE_PROXY_URL = "https://rsf-airtable-proxy.herokuapp.com";
+const AIRTABLE_PROXY_URL = "https://staging-rsf-airtable-proxy.herokuapp.com";
 
 const http = axios.create({
   baseURL: AIRTABLE_PROXY_URL
