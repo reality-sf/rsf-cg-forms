@@ -13,6 +13,9 @@ const TextArea = styled.textarea`
   border-radius: 3px;
   -webkit-appearance: none;
   display: block;
+  &::placeholder {
+    color: #ddd;
+  }
 `;
 
 export default TextArea;

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Button from "../components/Button";
 import Select from "react-select";
 import Label from "../components/Label";
 import Input from "../components/Input";
@@ -7,8 +6,9 @@ import InputGroup from "../components/InputGroup";
 import MeetingNight from "../components/MeetingNight";
 import TextArea from "../components/TextArea";
 import airtableProxyApi from "../clients/airtableProxyApi";
-import LaddaButton, { S, XS } from "react-ladda";
+import LaddaButton, { S } from "react-ladda";
 import ErrorMessage from "../components/ErrorMessage";
+import FormHeader from "../components/FormHeader";
 
 const identity = (value) => value;
 
@@ -88,6 +88,10 @@ export default class CommunityGroupForm extends Component {
     window.location.reload()
   }
 
+  handleReturnSelectGroup = () => {
+    this.setState({ currentGroup: null });
+  }
+
   renderErrorMessage () {
     const error = this.state.error;
     if (!error) {
@@ -121,7 +125,7 @@ export default class CommunityGroupForm extends Component {
   }
 
   renderGroupSelect () {
-    if (this.props.groups.length <= 1) {
+    if (this.props.groups.length <= 1 || this.state.currentGroup) {
       return null;
     }
     return <>
@@ -130,11 +134,19 @@ export default class CommunityGroupForm extends Component {
         <Select
           options={this.props.groups}
           getOptionLabel={(group) => group['CG Name']}
+          getOptionValue={(group) => group['CG Name']}
           name="Community Group"
           onChange={this.handleChangeGroup}
         />
       </InputGroup>
     </>
+  }
+
+  renderReturnSelectGroups () {
+    if (this.props.groups.length <= 1) {
+      return null;
+    }
+    return <a onClick={this.handleReturnSelectGroup} href="#">Edit another community group</a>
   }
 
   renderCgForm () {
@@ -143,10 +155,17 @@ export default class CommunityGroupForm extends Component {
       return null;
     }
     return <>
-      <h3>Editing {group['CG Name']}</h3>
+      <FormHeader>
+        <h3>Editing {group['CG Name']}</h3>
+        { this.renderReturnSelectGroups() }
+      </FormHeader>
       <InputGroup>
         <Label htmlFor="capacity-available">How many new members can you support?</Label>
         <Input id="capacity-available" type="number" value={group['Capacity Available']} onChange={this.handleChangeInput('Capacity Available')}></Input>
+      </InputGroup>
+      <InputGroup>
+        <Label htmlFor="capacity-available">How many members do you currently have?</Label>
+        <Input id="capacity-available" type="number" value={group['# Members']} onChange={this.handleChangeInput('# Members')}></Input>
       </InputGroup>
       <InputGroup>
         <Label htmlFor="meeting-night">When do you meet?</Label>
@@ -163,6 +182,10 @@ export default class CommunityGroupForm extends Component {
       <InputGroup>
         <Label htmlFor="meeting-address">What is your meeting address?</Label>
         <TextArea id="meeting-address" value={group['Meeting Address']} onChange={this.handleChangeInput('Meeting Address')}></TextArea>
+      </InputGroup>
+      <InputGroup>
+        <Label htmlFor="meeting-address">What are the cross streets?</Label>
+        <TextArea id="meeting-address" value={group['Cross Streets']} onChange={this.handleChangeInput('Cross Streets')}></TextArea>
       </InputGroup>
       <div>If you would like to inform us of leadership or other changes or requests, please send an email to <a href="mailto:cg@realitysf.com" target="_blank" rel="noopener noreferrer">cg@realitysf.com</a></div>
       <br/>
