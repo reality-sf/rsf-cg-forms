@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import LaddaButton, { S } from "react-ladda";
 import Select from "react-select";
 import Label from "../components/Label";
 import Input from "../components/Input";
@@ -6,7 +7,6 @@ import InputGroup from "../components/InputGroup";
 import MeetingNight from "../components/MeetingNight";
 import TextArea from "../components/TextArea";
 import airtableProxyApi from "../clients/airtableProxyApi";
-import LaddaButton, { S } from "react-ladda";
 import ErrorMessage from "../components/ErrorMessage";
 import FormHeader from "../components/FormHeader";
 import ButtonLink from "../components/ButtonLink";
@@ -174,19 +174,19 @@ export default class CommunityGroupForm extends Component {
       </InputGroup>
       <InputGroup>
         <Label htmlFor="meeting-start-time">When does your community group start?</Label>
-        <Input id="meeting-start-time" type="text" value={group['Meeting Start Time']} onChange={this.handleChangeInput('Meeting Start Time')}></Input>
+        <Input id="meeting-start-time" type="text" value={group['Meeting Start Time']} onChange={this.handleChangeInput('Meeting Start Time')} placeholder="e.g. 7:30 PM"></Input>
       </InputGroup>
       <InputGroup>
         <Label htmlFor="meeting-end-time">When does your community group end?</Label>
-        <Input id="meeting-end-time" type="text" value={group['Meeting End Time']} onChange={this.handleChangeInput('Meeting End Time')}></Input>
+        <Input id="meeting-end-time" type="text" value={group['Meeting End Time']} onChange={this.handleChangeInput('Meeting End Time')} placeholder="e.g. 9:30 PM"></Input>
       </InputGroup>
       <InputGroup>
         <Label htmlFor="meeting-address">What is your meeting address?</Label>
         <TextArea id="meeting-address" value={group['Meeting Address']} onChange={this.handleChangeInput('Meeting Address')}></TextArea>
       </InputGroup>
       <InputGroup>
-        <Label htmlFor="meeting-address">What are the cross streets?</Label>
-        <TextArea id="meeting-address" value={group['Cross Streets']} onChange={this.handleChangeInput('Cross Streets')}></TextArea>
+        <Label htmlFor="cross-streets">What are the cross streets?</Label>
+        <TextArea id="cross-streets" value={group['Cross Streets']} onChange={this.handleChangeInput('Cross Streets')}></TextArea>
       </InputGroup>
       <div>If you would like to inform us of leadership or other changes or requests, please send an email to <a href="mailto:cg@realitysf.com" target="_blank" rel="noopener noreferrer">cg@realitysf.com</a>.</div>
       <br/>
