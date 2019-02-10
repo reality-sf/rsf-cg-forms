@@ -1,6 +1,6 @@
 import React from "react";
 import Select from "react-select";
-import styled from "styled-components";
+import SelectWrapper from "./SelectWrapper";
 
 const NIGHTS = [
   { label: 'Monday', value: 'Monday' },
@@ -12,10 +12,6 @@ const NIGHTS = [
   { label: 'Sunday', value: 'Sunday' },
   { label: 'Saturday (Every other)', value: 'Saturday (Every other)' }
 ];
-
-const SelectWrapper = styled.div`
-  margin: 3px 0 12px;
-`;
 
 const MeetingNight = (props) => {
   return <SelectWrapper>

@@ -21,8 +21,8 @@ class App extends Component {
       error: null,
       // the list of community groups that are managed by this user
       groups: null,
-      // the group that we're editing information for
-      editingGroup: null,
+      // the list of neighborhoods
+      neighborhoods: null,
       configs: null
     };
   }
@@ -47,8 +47,11 @@ class App extends Component {
     try {
       const configs = await airtableProxyApi.getConfigs();
       if (await this.isUserLoggedIn()) {
-        const groups = await airtableProxyApi.listCommunityGroups();
-        this.setState({ loading: false, loggedIn: true, groups, configs });
+        const [groups, neighborhoods] = await Promise.all([
+          airtableProxyApi.listCommunityGroups(),
+          airtableProxyApi.listNeighborhoods()
+        ]);
+        this.setState({ loading: false, loggedIn: true, groups, neighborhoods, configs });
       } else {
         this.setState({ loading: false, loggedIn: false, configs });
       }
@@ -67,7 +70,11 @@ class App extends Component {
     if (!this.state.loggedIn) {
       return <LoginForm />;
     }
-    return <CommunityGroupForm groups={this.state.groups} configs={this.state.configs}></CommunityGroupForm>
+    return <CommunityGroupForm
+      groups={this.state.groups}
+      configs={this.state.configs}
+      neighborhoods={this.state.neighborhoods}
+    />
   }
 
   renderError () {

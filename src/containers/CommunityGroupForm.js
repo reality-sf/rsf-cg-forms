@@ -10,6 +10,7 @@ import airtableProxyApi from "../clients/airtableProxyApi";
 import ErrorMessage from "../components/ErrorMessage";
 import FormHeader from "../components/FormHeader";
 import ButtonLink from "../components/ButtonLink";
+import SelectWrapper from "../components/SelectWrapper";
 
 const identity = (value) => value;
 
@@ -84,6 +85,10 @@ export default class CommunityGroupForm extends Component {
   }
 
   handleChangeMeetingNight = this.handleChangeField((option) => option.value)('Meeting Night');
+
+  handleChangePrimaryNeighborhood = this.handleChangeField((option) => {
+    return option.map((opt) => opt['Record ID']);
+  })('Primary Neighborhood');
 
   handleReload = () => {
     window.location.reload()
@@ -170,6 +175,20 @@ export default class CommunityGroupForm extends Component {
         <h3>Editing {group['CG Name']}</h3>
         { this.renderReturnSelectGroups() }
       </FormHeader>
+      <InputGroup>
+        <Label htmlFor="neighborhoods">What is your primary neighborhood?</Label>
+        <SelectWrapper>
+          <Select
+            id="neighborhoods"
+            options={this.props.neighborhoods}
+            getOptionLabel={(n) => n.Name}
+            getOptionValue={(n) => n['Record ID']}
+            value={this.props.neighborhoods.filter((n) => group['Primary Neighborhood'].includes(n['Record ID']))}
+            onChange={this.handleChangePrimaryNeighborhood}
+            isMulti={true}
+          />
+        </SelectWrapper>
+      </InputGroup>
       { this.renderCapacityAvailable() }
       <InputGroup>
         <Label htmlFor="capacity-available">How many members do you currently have?</Label>

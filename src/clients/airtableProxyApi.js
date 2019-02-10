@@ -44,6 +44,11 @@ class AirtableProxyApi {
     return data;
   }
 
+  async listNeighborhoods () {
+    const { data } = await http.get(`/neighborhoods`);
+    return data;
+  }
+
   async getConfigs () {
     const { data } = await http.get('/configs');
     return data;
