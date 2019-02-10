@@ -16,6 +16,9 @@ const Input = styled.input`
     border-color: #222;
     outline: none;
   }
+  &:disabled {
+    background-color: #ececec;
+  }
 `;
 
 export default Input;

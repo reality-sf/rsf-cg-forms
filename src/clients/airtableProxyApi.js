@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const AIRTABLE_PROXY_URL = "https://staging-rsf-airtable-proxy.herokuapp.com";
+// const AIRTABLE_PROXY_URL = "https://staging-rsf-airtable-proxy.herokuapp.com";
+const AIRTABLE_PROXY_URL = "http://localhost:3050";
 
 const http = axios.create({
   baseURL: AIRTABLE_PROXY_URL
@@ -41,6 +42,11 @@ class AirtableProxyApi {
 
   async updateCommunityGroup (group) {
     const { data } = await http.put(`/community_groups/${group['Record ID']}`, group);
+    return data;
+  }
+
+  async getConfigs () {
+    const { data } = await http.get('/configs');
     return data;
   }
 }

@@ -9,6 +9,7 @@ import FormBody from "./components/FormBody";
 import BarLoader from 'react-spinners/BarLoader';
 import { css } from '@emotion/core';
 import CommunityGroupForm from "./containers/CommunityGroupForm";
+import ErrorMessage from './components/ErrorMessage';
 
 class App extends Component {
 
@@ -21,7 +22,8 @@ class App extends Component {
       // the list of community groups that are managed by this user
       groups: null,
       // the group that we're editing information for
-      editingGroup: null
+      editingGroup: null,
+      configs: null
     };
   }
 
@@ -43,11 +45,12 @@ class App extends Component {
    */
   async componentDidMount () {
     try {
+      const configs = await airtableProxyApi.getConfigs();
       if (await this.isUserLoggedIn()) {
         const groups = await airtableProxyApi.listCommunityGroups();
-        this.setState({ loading: false, loggedIn: true, groups });
+        this.setState({ loading: false, loggedIn: true, groups, configs });
       } else {
-        this.setState({ loading: false, loggedIn: false });
+        this.setState({ loading: false, loggedIn: false, configs });
       }
     } catch (err) {
       this.setState({ error: err, loading: false });
@@ -64,13 +67,24 @@ class App extends Component {
     if (!this.state.loggedIn) {
       return <LoginForm />;
     }
-    return <CommunityGroupForm groups={this.state.groups}></CommunityGroupForm>
+    return <CommunityGroupForm groups={this.state.groups} configs={this.state.configs}></CommunityGroupForm>
+  }
+
+  renderError () {
+    if (this.state.error) {
+      return <ErrorMessage>
+        Uh oh! Something unexpected happened. Details:
+
+        <pre>{this.state.error.message}</pre>
+      </ErrorMessage>
+    }
   }
 
   render () {
     return <div className="container">
       <Masthead title="Community Group Management Form" />
       <FormBody>
+        {this.renderError()}
         {this.renderFormBody()}
       </FormBody>
     </div>

@@ -150,6 +150,16 @@ export default class CommunityGroupForm extends Component {
     return <ButtonLink onClick={this.handleReturnSelectGroup}>Edit another community group</ButtonLink>
   }
 
+  renderCapacityAvailable () {
+    if (!this.props.configs.ALLOW_UPDATE_CAPACITY) {
+      return null;
+    }
+    return <InputGroup>
+      <Label htmlFor="capacity-available">How many new members can you support?</Label>
+      <Input id="capacity-available" type="number" value={this.state.currentGroup['Capacity Available']} onChange={this.handleChangeInput('Capacity Available')}></Input>
+    </InputGroup>
+  }
+
   renderCgForm () {
     const group = this.state.currentGroup;
     if (!group || this.state.success) {
@@ -160,10 +170,7 @@ export default class CommunityGroupForm extends Component {
         <h3>Editing {group['CG Name']}</h3>
         { this.renderReturnSelectGroups() }
       </FormHeader>
-      <InputGroup>
-        <Label htmlFor="capacity-available">How many new members can you support?</Label>
-        <Input id="capacity-available" type="number" value={group['Capacity Available']} onChange={this.handleChangeInput('Capacity Available')}></Input>
-      </InputGroup>
+      { this.renderCapacityAvailable() }
       <InputGroup>
         <Label htmlFor="capacity-available">How many members do you currently have?</Label>
         <Input id="capacity-available" type="number" value={group['# Members']} onChange={this.handleChangeInput('# Members')}></Input>
