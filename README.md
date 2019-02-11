@@ -1,6 +1,8 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). For details on the build setup, consult their readme.
+# RSF CG Forms
 
-### Deployment
+This is the UI for https://github.com/reality-sf/rsf-airtable-proxy. Check out that project's readme for a description of how things work! 
+
+## Deployment
 
 This site is deployed onto Github Pages. To deploy:
 
