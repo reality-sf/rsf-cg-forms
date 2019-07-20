@@ -1,13 +1,13 @@
 {
-  "main.css": "/rsf-cg-forms/static/css/main.595d2b19.chunk.css",
-  "main.js": "/rsf-cg-forms/static/js/main.f3a0c956.chunk.js",
-  "main.js.map": "/rsf-cg-forms/static/js/main.f3a0c956.chunk.js.map",
-  "static/js/1.fa3245d1.chunk.js": "/rsf-cg-forms/static/js/1.fa3245d1.chunk.js",
-  "static/js/1.fa3245d1.chunk.js.map": "/rsf-cg-forms/static/js/1.fa3245d1.chunk.js.map",
-  "runtime~main.js": "/rsf-cg-forms/static/js/runtime~main.67c796bc.js",
-  "runtime~main.js.map": "/rsf-cg-forms/static/js/runtime~main.67c796bc.js.map",
-  "static/css/main.595d2b19.chunk.css.map": "/rsf-cg-forms/static/css/main.595d2b19.chunk.css.map",
-  "index.html": "/rsf-cg-forms/index.html",
-  "precache-manifest.73e10bcb3e26c054104a040046a45383.js": "/rsf-cg-forms/precache-manifest.73e10bcb3e26c054104a040046a45383.js",
-  "service-worker.js": "/rsf-cg-forms/service-worker.js"
+  "main.css": "./static/css/main.76db6e65.chunk.css",
+  "main.js": "./static/js/main.83bc32a7.chunk.js",
+  "main.js.map": "./static/js/main.83bc32a7.chunk.js.map",
+  "static/js/1.189dccc2.chunk.js": "./static/js/1.189dccc2.chunk.js",
+  "static/js/1.189dccc2.chunk.js.map": "./static/js/1.189dccc2.chunk.js.map",
+  "runtime~main.js": "./static/js/runtime~main.4a686d48.js",
+  "runtime~main.js.map": "./static/js/runtime~main.4a686d48.js.map",
+  "static/css/main.76db6e65.chunk.css.map": "./static/css/main.76db6e65.chunk.css.map",
+  "index.html": "./index.html",
+  "precache-manifest.4e6455fcf13345b8cb0d22527895f296.js": "./precache-manifest.4e6455fcf13345b8cb0d22527895f296.js",
+  "service-worker.js": "./service-worker.js"
 }
