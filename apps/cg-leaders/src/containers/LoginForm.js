@@ -1,11 +1,11 @@
 import { Component } from "react";
-import InputGroup from "../components/InputGroup";
-import Label from "../components/Label";
-import Input from "../components/Input";
+import InputGroup from "../shared/components/InputGroup";
+import Label from "../shared/components/Label";
+import Input from "../shared/components/Input";
 import React from "react";
 import airtableProxyApi from "../clients/airtableProxyApi";
 import LaddaButton, { S } from "react-ladda";
-import ErrorMessage from "../components/ErrorMessage";
+import ErrorMessage from "../shared/components/ErrorMessage";
 
 export default class LoginForm extends Component {
 
