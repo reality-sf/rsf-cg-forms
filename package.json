@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/reality-sf/rsf-cg-forms#readme",
   "devDependencies": {
-    "customize-cra": "^0.4.1"
+    "customize-cra": "^0.4.1",
+    "styled-components": "^4.3.2"
   }
 }
