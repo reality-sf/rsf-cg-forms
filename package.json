@@ -1,0 +1,22 @@
+{
+  "name": "rsf-cg-forms",
+  "version": "1.0.0",
+  "description": "This is the UI for https://github.com/reality-sf/rsf-airtable-proxy. Check out that project's readme for a description of how things work!",
+  "main": "config-overrides.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reality-sf/rsf-cg-forms.git"
+  },
+  "author": "Daniel Chao (http://dchao.co/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/reality-sf/rsf-cg-forms/issues"
+  },
+  "homepage": "https://github.com/reality-sf/rsf-cg-forms#readme",
+  "devDependencies": {
+    "customize-cra": "^0.4.1"
+  }
+}

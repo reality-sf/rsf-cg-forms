@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import LaddaButton, { S } from "react-ladda";
 import Select from "react-select";
-import Label from "../shared/components/Label";
-import Input from "../shared/components/Input";
-import InputGroup from "../shared/components/InputGroup";
-import MeetingNight from "../shared/components/MeetingNight";
-import TextArea from "../shared/components/TextArea";
+import Label from "~shared/components/Label";
+import Input from "~shared/components/Input";
+import InputGroup from "~shared/components/InputGroup";
+import MeetingNight from "~shared/components/MeetingNight";
+import TextArea from "~shared/components/TextArea";
 import airtableProxyApi from "../clients/airtableProxyApi";
-import ErrorMessage from "../shared/components/ErrorMessage";
-import FormHeader from "../shared/components/FormHeader";
-import ButtonLink from "../shared/components/ButtonLink";
-import SelectWrapper from "../shared/components/SelectWrapper";
+import ErrorMessage from "~shared/components/ErrorMessage";
+import FormHeader from "~shared/components/FormHeader";
+import ButtonLink from "~shared/components/ButtonLink";
+import SelectWrapper from "~shared/components/SelectWrapper";
 
 const identity = (value) => value;
 

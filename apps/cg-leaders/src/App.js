@@ -4,12 +4,12 @@ import Masthead from "./containers/Masthead";
 import "./styles/App.css";
 import airtableProxyApi from "./clients/airtableProxyApi";
 import queryString from "query-string";
-import { someAsync } from './shared/util/promises';
-import FormBody from "./shared/components/FormBody";
+import { someAsync } from '~shared/util/promises';
+import FormBody from "~shared/components/FormBody";
 import BarLoader from 'react-spinners/BarLoader';
 import { css } from '@emotion/core';
 import CommunityGroupForm from "./containers/CommunityGroupForm";
-import ErrorMessage from './shared/components/ErrorMessage';
+import ErrorMessage from '~shared/components/ErrorMessage';
 
 class App extends Component {
 
