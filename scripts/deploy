@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+TARGET_SITE=${TARGET_SITE:-apps/cg-leaders}
+PATH=$PATH:./node_modules/.bin
+ENV=${ENV:-prod}
+
+main () {
+  local app_name=$(basename $TARGET_SITE)
+  local repo=$(cat deployment.json | jq -r ".[\"$app_name\"].$ENV")
+  echo "Deploying $app_name to $repo"
+  cd $TARGET_SITE
+  npm install
+  npm run build
+  gh-pages -d build -r $repo
+}
+
+main

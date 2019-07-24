@@ -1,38 +1,24 @@
 {
-  "name": "reality-sf-forms",
-  "version": "0.1.0",
-  "private": true,
-  "homepage": "https://reality-sf.github.io/rsf-cg-forms",
-  "dependencies": {
-    "axios": "^0.18.0",
-    "query-string": "^6.2.0",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
-    "react-ladda": "^6.0.0",
-    "react-progress-button": "^5.1.0",
-    "react-scripts": "2.1.3",
-    "react-select": "^2.3.0",
-    "react-spinners": "^0.5.1",
-    "styled-components": "^4.1.3"
-  },
+  "name": "rsf-cg-forms",
+  "version": "1.0.0",
+  "description": "This is the UI for https://github.com/reality-sf/rsf-airtable-proxy. Check out that project's readme for a description of how things work!",
+  "main": "config-overrides.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reality-sf/rsf-cg-forms.git"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
+  "author": "Daniel Chao (http://dchao.co/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/reality-sf/rsf-cg-forms/issues"
+  },
+  "homepage": "https://github.com/reality-sf/rsf-cg-forms#readme",
   "devDependencies": {
-    "gh-pages": "^2.0.1"
+    "customize-cra": "^0.4.1",
+    "gh-pages": "^2.0.1",
+    "styled-components": "^4.3.2"
   }
 }

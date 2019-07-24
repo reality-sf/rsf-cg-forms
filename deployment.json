@@ -1,0 +1,6 @@
+{
+  "cg-leaders": {
+    "prod": "git@github.com:reality-sf/cg-leaders.git",
+    "staging": "git@github.com:reality-sf/cg-leaders-staging.git"
+  }
+}

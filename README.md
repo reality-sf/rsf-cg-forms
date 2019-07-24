@@ -1,12 +1,19 @@
 # RSF CG Forms
 
-This is the UI for https://github.com/reality-sf/rsf-airtable-proxy. Check out that project's readme for a description of how things work! 
+This is the repository for various forms for Reality SF.
+
+## Project Architecture
+
+The repository is split into multiple logical applications, each its own create-react-app instance. Each app has its own folder within [`apps/`](apps/), and gets deployed to its own set of GitHub Pages.
+
+Shared files are placed within the `shared` directory. This directory is made available to each app using the absolute path `~shared`; each file is (e.g. `import Foo from "~shared/components/Foo"`). The symlink managed by the `link-module-alias` library.
 
 ## Deployment
 
 This site is deployed onto Github Pages. To deploy:
 
 ```bash
+cd <directory> # directory should be where that create-react-app application lives.
 npm install
 npm run deploy
 ```
