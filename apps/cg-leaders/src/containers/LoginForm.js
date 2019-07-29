@@ -3,7 +3,7 @@ import InputGroup from "~shared/components/InputGroup";
 import Label from "~shared/components/Label";
 import Input from "~shared/components/Input";
 import React from "react";
-import airtableProxyApi from "../clients/airtableProxyApi";
+import backendClient from "~shared/clients/backend";
 import LaddaButton, { S } from "react-ladda";
 import ErrorMessage from "~shared/components/ErrorMessage";
 
@@ -24,7 +24,7 @@ export default class LoginForm extends Component {
     event.preventDefault();
     this.setState({ loading: true });
     try {
-      await airtableProxyApi.sendEmailLink(this.state.email);
+      await backendClient.sendEmailLink(this.state.email);
       this.setState({ success: true, loading: false });
     } catch (err) {
       this.setState({

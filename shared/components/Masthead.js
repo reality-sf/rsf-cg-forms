@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../images/logo.png";
+import logo from "~shared/images/logo.png";
 import styled from "styled-components";
 
 const MastheadWrapper = styled.h1`

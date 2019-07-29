@@ -2,5 +2,9 @@
   "cg-leaders": {
     "prod": "git@github.com:reality-sf/cg-leaders.git",
     "staging": "git@github.com:reality-sf/cg-leaders-staging.git"
+  },
+  "newcomers": {
+    "prod": "git@github.com:reality-sf/newcomers.git",
+    "staging": "git@github.com:reality-sf/newcomers-staging.git"
   }
 }

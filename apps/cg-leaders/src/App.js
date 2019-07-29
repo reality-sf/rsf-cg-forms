@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import LoginForm from "./containers/LoginForm";
-import Masthead from "./containers/Masthead";
-import "./styles/App.css";
-import airtableProxyApi from "./clients/airtableProxyApi";
+import Masthead from "~shared/components/Masthead";
+import backendClient from "~shared/clients/backend";
 import queryString from "query-string";
 import { someAsync } from '~shared/util/promises';
 import FormBody from "~shared/components/FormBody";
@@ -31,8 +30,8 @@ class App extends Component {
     const query = queryString.parse(window.location.search);
     try {
       await someAsync([
-        airtableProxyApi.login(query.token),
-        airtableProxyApi.getMe()
+        backendClient.login(query.token),
+        backendClient.getMe()
       ]);
       return true;
     } catch (err) {
@@ -45,11 +44,11 @@ class App extends Component {
    */
   async componentDidMount () {
     try {
-      const configs = await airtableProxyApi.getConfigs();
+      const configs = await backendClient.getConfigs();
       if (await this.isUserLoggedIn()) {
         const [groups, neighborhoods] = await Promise.all([
-          airtableProxyApi.listCommunityGroups(),
-          airtableProxyApi.listNeighborhoods()
+          backendClient.listCommunityGroups(),
+          backendClient.listNeighborhoods()
         ]);
         this.setState({ loading: false, loggedIn: true, groups, neighborhoods, configs });
       } else {

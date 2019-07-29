@@ -6,7 +6,7 @@ import Input from "~shared/components/Input";
 import InputGroup from "~shared/components/InputGroup";
 import MeetingNight from "~shared/components/MeetingNight";
 import TextArea from "~shared/components/TextArea";
-import airtableProxyApi from "../clients/airtableProxyApi";
+import backendClient from "~shared/clients/backend";
 import ErrorMessage from "~shared/components/ErrorMessage";
 import FormHeader from "~shared/components/FormHeader";
 import ButtonLink from "~shared/components/ButtonLink";
@@ -37,7 +37,7 @@ export default class CommunityGroupForm extends Component {
     event.preventDefault();
     this.setState({ loading: true });
     try {
-      await airtableProxyApi.updateCommunityGroup(this.state.currentGroup);
+      await backendClient.updateCommunityGroup(this.state.currentGroup);
       this.setState({ loading: false, success: true });
     } catch (err) {
       this.setState({ loading: false, error: err });
