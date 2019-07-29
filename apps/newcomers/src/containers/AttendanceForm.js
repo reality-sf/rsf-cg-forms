@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import InputGroup from "~shared/components/InputGroup";
-import Input from "~shared/components/Input";
-import Label from "~shared/components/Label";
+import InputGroup from "../shared/components/InputGroup";
+import Input from "../shared/components/Input";
+import Label from "../shared/components/Label";
 import LaddaButton, { S } from "react-ladda";
-import backendClient from "~shared/clients/backend";
+import backendClient from "../shared/clients/backend";
 import PropTypes from "prop-types";
 import PeopleDetailsForm from "./PeopleDetailsForm";
 
@@ -89,8 +89,7 @@ class AttendanceForm extends Component {
     return <PeopleDetailsForm
       {...existingInput}
       onSubmit={this.handleSubmitDetails}
-    >
-    </PeopleDetailsForm>
+    />
   }
 
   render () {

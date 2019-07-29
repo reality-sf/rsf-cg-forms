@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import InputGroup from "~shared/components/InputGroup";
-import Label from "~shared/components/Label";
-import Input from "~shared/components/Input";
+import InputGroup from "../shared/components/InputGroup";
+import Label from "../shared/components/Label";
+import Input from "../shared/components/Input";
 import LaddaButton, { S } from "react-ladda/dist/LaddaButton";
 import PropTypes from "prop-types";
 import { identity } from "lodash";
@@ -49,6 +49,10 @@ class PeopleDetailsForm extends Component {
 
   render () {
     return <form onSubmit={this.props.onSubmit}>
+      Welcome to Reality SF! It seems like we don't have your information yet. Please provide us with some basic information.
+      <br />
+      <br />
+      <a href="foo">I mistakenly entered the wrong email or phone number</a>
       <InputGroup>
         <Label>First Name</Label>
         <Input value={this.state.firstName} onChange={this.handleChangeInput('firstName')}></Input>

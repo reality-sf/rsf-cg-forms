@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Masthead from "~shared/components/Masthead";
-import FormBody from "~shared/components/FormBody";
+import Masthead from "./shared/components/Masthead";
+import FormBody from "./shared/components/FormBody";
 import AttendanceForm from "./containers/AttendanceForm";
 
 class App extends Component {

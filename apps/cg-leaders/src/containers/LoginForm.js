@@ -1,11 +1,11 @@
 import { Component } from "react";
-import InputGroup from "~shared/components/InputGroup";
-import Label from "~shared/components/Label";
-import Input from "~shared/components/Input";
+import InputGroup from "../shared/components/InputGroup";
+import Label from "../shared/components/Label";
+import Input from "../shared/components/Input";
 import React from "react";
-import backendClient from "~shared/clients/backend";
+import backendClient from "../shared/clients/backend";
 import LaddaButton, { S } from "react-ladda";
-import ErrorMessage from "~shared/components/ErrorMessage";
+import ErrorMessage from "../shared/components/ErrorMessage";
 
 export default class LoginForm extends Component {
 

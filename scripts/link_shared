@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# This script makes the "shared" directory symlinked to src/shared within each logical app. For instance, it adds a
+# symbolink link that points apps/cg-leaders/src/shared/ to shared/.
+
+set -eo pipefail
+
+SCRIPT_DIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd)"
+BASE_DIR=$(realpath "$SCRIPT_DIR"/..)
+
+# For each subdirectory within apps
+for dir in "$BASE_DIR"/apps/*; do
+  # if it's a directory
+  if [[ -d "$dir" ]]; then
+    # Create the symlink
+    symlink="$dir"/src/shared
+    echo "$symlink -> $BASE_DIR/shared/"
+    ln -sf "$BASE_DIR/shared/" "$symlink"
+  fi
+done
