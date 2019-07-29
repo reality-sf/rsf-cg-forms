@@ -19,7 +19,9 @@ class App extends Component {
   render () {
     return <div className="container">
       <Masthead title="Newcomers Community Group"></Masthead>
-      <FormBody><AttendanceForm onMarkedAttendance={this.handleMarkedAttendance} /></FormBody>
+      <FormBody>
+        <AttendanceForm onMarkedAttendance={this.handleMarkedAttendance} />
+      </FormBody>
     </div>
   }
 }

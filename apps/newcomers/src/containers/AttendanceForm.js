@@ -1,12 +1,14 @@
 import React, { Component } from "react";
-import InputGroup from "../shared/components/InputGroup";
-import Input from "../shared/components/Input";
-import Label from "../shared/components/Label";
 import LaddaButton, { S } from "react-ladda";
 import backendClient from "../shared/clients/backend";
 import PropTypes from "prop-types";
 import PeopleDetailsForm from "./PeopleDetailsForm";
+import EntryForm from "./EntryForm";
 
+/**
+ * The attendance form for newcomvers groups. This manages the overall state of the attendance form, using
+ * `EntryForm` and `PeopleDetailsForm` to gather individual pieces of information.
+ */
 class AttendanceForm extends Component {
 
   static propTypes = {
@@ -17,9 +19,6 @@ class AttendanceForm extends Component {
     super(props);
     this.state = {
       phoneOrEmail: "",
-      firstName: "",
-      lastName: "",
-      
       /**
        * The user has submitted their phone number or email address.
        */
@@ -33,44 +32,30 @@ class AttendanceForm extends Component {
     };
   }
 
-  handleChangePhoneOrEmail = (event) => {
-    this.setState({ phoneOrEmail: event.target.value });
-  }
-
-  handleSubmitPhoneOrEmail = async (evt) => {
-    evt.preventDefault();
-    this.setState({ loading: true });
+  handleSubmitPhoneOrEmail = async (phoneOrEmail) => {
     try {
       const [person] = await backendClient.findPerson({
         where: {
-          search_name_or_email_or_phone_number: this.state.phoneOrEmail
+          search_name_or_email_or_phone_number: phoneOrEmail
         }
       });
       if (person) {
         await this.handleMarkAttendance(person);
-        this.setState({ succes: true });
+        this.setState({ succes: true, loading: false });
       } else {
-        this.setState({ submittedPhoneOrEmail: true });
+        this.setState({ submittedPhoneOrEmail: true, phoneOrEmail, loading: false });
       }
-      this.setState({ loading: false });
     } catch (err) {
       this.setState({ loading: false, error: err });
     }
   }
 
-  renderPromptFormOrEmail () {
-    return <form onSubmit={this.handleSubmitPhoneOrEmail}>
-      <InputGroup>
-        <Label htmlFor="phoneOrEmail">Phone numer or email</Label>
-        <Input id="phoneOrEmail" type="text" value={this.state.phoneOrEmail} onChange={this.handleChangePhoneOrEmail} />
-      </InputGroup>
-      <LaddaButton
-        loading={this.state.loading}
-        data-color="blue"
-        data-size={S}
-        {...(this.state.success ? { disabled: true } : {})}
-      >Submit</LaddaButton>
-    </form>;
+  handleUndoEmailOrPhone = () => {
+    this.setState({ submittedPhoneOrEmail: false });
+  }
+
+  renderEntryForm () {
+    return <EntryForm onSubmitPhoneOrEmail={this.handleSubmitPhoneOrEmail} />
   }
 
   renderSuccess () {
@@ -89,12 +74,13 @@ class AttendanceForm extends Component {
     return <PeopleDetailsForm
       {...existingInput}
       onSubmit={this.handleSubmitDetails}
+      onUndoEmailOrPhone={this.handleUndoEmailOrPhone}
     />
   }
 
   render () {
     if (!this.state.submittedPhoneOrEmail) {
-      return this.renderPromptFormOrEmail();
+      return this.renderEntryForm();
     }
     if (this.state.success) {
       return this.renderSuccess();
