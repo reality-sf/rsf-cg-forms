@@ -23,6 +23,7 @@ class EntryForm extends Component {
 
   handleSubmitPhoneOrEmail = (evt) => {
     evt.preventDefault();
+    debugger;
     this.setState({ loading: true });
     this.props.onSubmitPhoneOrEmail(this.state.phoneOrEmail);
   }

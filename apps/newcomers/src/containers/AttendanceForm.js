@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import LaddaButton, { S } from "react-ladda";
-import backendClient from "../shared/clients/backend";
+import planningCenter from "../shared/clients/planningCenter";
 import PropTypes from "prop-types";
 import PeopleDetailsForm from "./PeopleDetailsForm";
 import EntryForm from "./EntryForm";
@@ -34,7 +34,7 @@ class AttendanceForm extends Component {
 
   handleSubmitPhoneOrEmail = async (phoneOrEmail) => {
     try {
-      const [person] = await backendClient.findPerson({
+      const [person] = await planningCenter.findPerson({
         where: {
           search_name_or_email_or_phone_number: phoneOrEmail
         }
@@ -48,6 +48,10 @@ class AttendanceForm extends Component {
     } catch (err) {
       this.setState({ loading: false, error: err });
     }
+  }
+
+  handleSubmitDetails = async (details) => {
+    
   }
 
   handleUndoEmailOrPhone = () => {

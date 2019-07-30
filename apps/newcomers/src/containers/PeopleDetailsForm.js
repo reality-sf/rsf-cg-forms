@@ -57,19 +57,27 @@ class PeopleDetailsForm extends Component {
       <ButtonLink onClick={this.props.onUndoEmailOrPhone}>I mistakenly entered the wrong email or phone number</ButtonLink>
       <InputGroup>
         <Label>First Name</Label>
-        <Input value={this.state.firstName} onChange={this.handleChangeInput('firstName')}></Input>
+        <Input value={this.state.firstName} onChange={this.handleChangeInput('firstName')} />
       </InputGroup>
       <InputGroup>
         <Label>Last Name</Label>
-        <Input value={this.state.lastName} onChange={this.handleChangeInput('lastName')}></Input>
+        <Input value={this.state.lastName} onChange={this.handleChangeInput('lastName')} />
       </InputGroup>
       <InputGroup>
         <Label>Email</Label>
-        <Input value={this.state.email} onChange={this.handleChangeInput('email')}></Input>
+        <Input
+          value={this.state.email}
+          onChange={this.handleChangeInput('email')}
+          disabled={this.props.email && this.props.email.length > 0}
+        />
       </InputGroup>
       <InputGroup>
         <Label>Phone Number</Label>
-        <Input value={this.state.phoneNumber} onChange={this.handleChangeInput('phoneNumber')}></Input>
+        <Input
+          value={this.state.phoneNumber}
+          onChange={this.handleChangeInput('phoneNumber')}
+          disabled={this.props.phoneNumber && this.props.phoneNumber.length > 0}
+        />
       </InputGroup>
       <LaddaButton
         data-size={S}
