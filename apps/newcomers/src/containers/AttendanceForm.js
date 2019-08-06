@@ -4,6 +4,7 @@ import planningCenter from "../shared/clients/planningCenter";
 import PropTypes from "prop-types";
 import PeopleDetailsForm from "./PeopleDetailsForm";
 import EntryForm from "./EntryForm";
+import markAttendance from "../util/markAttendance";
 
 /**
  * The attendance form for newcomvers groups. This manages the overall state of the attendance form, using
@@ -40,7 +41,7 @@ class AttendanceForm extends Component {
         }
       });
       if (person) {
-        await this.handleMarkAttendance(person);
+        await markAttendance(person, phoneOrEmail);
         this.setState({ succes: true, loading: false });
       } else {
         this.setState({ submittedPhoneOrEmail: true, phoneOrEmail, loading: false });
