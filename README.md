@@ -13,10 +13,12 @@ Shared files are placed within the `shared` directory. This directory is made av
 1. Within the project root, run `create-react-app apps/<app_name>`. Make sure you have [`create-react-app`](https://facebook.github.io/create-react-app/docs/getting-started) installed. This will create a new directory at `apps/<app_name>`.
 2. Change your directory to `apps/<app_name>`.
 3. Run `npm install --save-dev react-app-rewired customize-cra`
-4. Add a file to the project root called "config-overrides.js", whose contents is `module.exports = require('../../config-overrides');`
-5. Change the existing npm scripts from `react-scripts` to `react-app-rewired`.
-6. Add `"postinstall": "../../scripts/link_shared"` to the scripts
-7. Add an entry to `deployment.json` that points your app to its respective Github repositories. You will need to create two repositories; one for staging, and one for production. The repository name will become the top-level directory of our public URL.
+4. Within the new package.json:
+    1. Change the existing npm scripts from `react-scripts` to `react-app-rewired`.
+    2. Add `"postinstall": "../../scripts/link_shared"` to the scripts
+    3. Add `"homepage": "."` to the document root.
+5. Add a file to the project root called "config-overrides.js", whose contents is `module.exports = require('../../config-overrides');`
+6. Add an entry to `deployment.json` that points your app to its respective Github repositories. You will need to create two repositories; one for staging, and one for production. The repository name will become the top-level directory of our public URL.
 
 ## Deployment
 
