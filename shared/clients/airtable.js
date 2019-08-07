@@ -81,7 +81,7 @@ class Airtable {
    * @param {Attendance} attendance
    */
   async updateAttendance(attendance) {
-    const { data } = await http.put(`/airtable/attendance/${params['Record ID']}`, attendance);
+    const { data } = await http.put(`/airtable/attendance/${attendance['Record ID']}`, attendance);
     return data;
   }
 }

@@ -41,8 +41,13 @@ class AttendanceForm extends Component {
         }
       });
       if (person) {
-        await markAttendance(person, phoneOrEmail);
-        this.setState({ succes: true, loading: false });
+        try {
+          await markAttendance(person, phoneOrEmail);
+          this.setState({ success: true, submittedPhoneOrEmail: true, loading: false });
+        } catch (err) {
+          console.error(err);
+          this.setState({ error: err });
+        }
       } else {
         this.setState({ submittedPhoneOrEmail: true, phoneOrEmail, loading: false });
       }
@@ -65,7 +70,7 @@ class AttendanceForm extends Component {
 
   renderSuccess () {
     return <div>
-      Thank you!
+      Thank you! <br />
       <LaddaButton
         onClick={this.props.onMarkedAttendance}
         data-size={S}

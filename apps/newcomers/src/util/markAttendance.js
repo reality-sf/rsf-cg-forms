@@ -1,11 +1,12 @@
 import airtable from "../shared/clients/airtable";
+import _ from "lodash";
 
 const getOrCreatePerson = async (person, emailOrPhone) => {
-  const airtablePerson = await airtable.findPerson({ Email: person, 'Phone Number': emailOrPhone });
+  const [airtablePerson] = await airtable.findPerson({ Email: emailOrPhone, 'Phone Number': emailOrPhone });
   if (airtablePerson) {
     return airtablePerson;
   }
-  const extraDetails = emailOrPhone.includes('@') ? 'Email' : 'Phone Number';
+  const extraDetails = emailOrPhone.indexOf('@') > -1 ? 'Email' : 'Phone Number';
   const createdPerson = await airtable.createPerson({
     'First Name': person.attributes.first_name,
     'Last Name': person.attributes.last_name,
@@ -32,7 +33,14 @@ const getOrCreateAttendance = async () => {
  */
 const markAttendance = async (person, phonerOrEmail) => {
   const attendance = await getOrCreateAttendance();
-  const airtablePerson = await getOrCreatePerson(person);
+  const airtablePerson = await getOrCreatePerson(person, phonerOrEmail);
+  await airtable.updateAttendance({
+    ...attendance,
+    'Person': _.uniq([
+      ...(attendance.Person || []),
+      airtablePerson['Record ID']
+    ])
+  });
 };
 
 export default markAttendance;
