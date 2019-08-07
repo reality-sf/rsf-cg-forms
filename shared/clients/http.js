@@ -1,7 +1,7 @@
 import axios from "axios";
 import qs from "qs";
 
-const BACKEND_URL = "http://localhost:3050";
+const BACKEND_URL = "https://staging-rsf-airtable-proxy.herokuapp.com/";
 
 const http = axios.create({
   baseURL: BACKEND_URL,
