@@ -7,6 +7,8 @@ import LaddaButton, { S } from "react-ladda/dist/LaddaButton";
 import PropTypes from "prop-types";
 import { identity } from "lodash";
 
+// @ts-check
+
 class PeopleDetailsForm extends Component {
 
   static propTypes = {
@@ -15,7 +17,8 @@ class PeopleDetailsForm extends Component {
     firstName: PropTypes.string,
     lastName: PropTypes.string,
     onSubmit: PropTypes.func.isRequired,
-    onUndoEmailOrPhone: PropTypes.func.isRequired
+    onUndoEmailOrPhone: PropTypes.func.isRequired,
+    existingPerson: PropTypes.bool,
   }
 
   constructor (props) {
@@ -48,9 +51,13 @@ class PeopleDetailsForm extends Component {
     return evt.target.value;
   });
 
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.props.onSubmit(this.state);
+  }
 
   render () {
-    return <form onSubmit={this.props.onSubmit}>
+    return <form onSubmit={this.handleSubmit}>
       Welcome to Reality SF! It seems like we don't have your information yet. Please provide us with some basic information.
       <br />
       <br />

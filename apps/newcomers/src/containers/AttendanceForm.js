@@ -3,12 +3,12 @@ import LaddaButton, { S } from "react-ladda";
 import planningCenter from "../shared/clients/planningCenter";
 import PropTypes from "prop-types";
 import PeopleDetailsForm from "./PeopleDetailsForm";
-import EntryForm from "./EntryForm";
+import EntryPointForm from "./EntryPointForm";
 import markAttendance from "../util/markAttendance";
 
 /**
- * The attendance form for newcomvers groups. This manages the overall state of the attendance form, using
- * `EntryForm` and `PeopleDetailsForm` to gather individual pieces of information.
+ * The attendance form for newcomers groups. This manages the overall state of the attendance form, using
+ * `EntryPointForm` and `PeopleDetailsForm` to gather individual pieces of information.
  */
 class AttendanceForm extends Component {
 
@@ -20,6 +20,10 @@ class AttendanceForm extends Component {
     super(props);
     this.state = {
       phoneOrEmail: "",
+      /**
+       * The `person` object we've received from planning center, including their phone number and email address.
+       */
+      planningCenterPerson: null,
       /**
        * The user has submitted their phone number or email address.
        */
@@ -33,23 +37,38 @@ class AttendanceForm extends Component {
     };
   }
 
+  findPlanningCenterPerson = async (phoneOrEmail) => {
+    const [person] = await planningCenter.findPerson({
+      where: {
+        search_name_or_email_or_phone_number: phoneOrEmail
+      }
+    });
+    if (!person) {
+      return null;
+    }
+    const [emails, phoneNumbers] = await Promise.all([
+      planningCenter.listPersonEmail(person.id),
+      planningCenter.listPersonPhoneNumber(person.id)
+    ])
+    return {
+      ...person,
+      emails,
+      phoneNumbers
+    };
+  }
+
   handleSubmitPhoneOrEmail = async (phoneOrEmail) => {
     try {
-      const [person] = await planningCenter.findPerson({
-        where: {
-          search_name_or_email_or_phone_number: phoneOrEmail
-        }
-      });
-      if (person) {
+      const person = await this.findPlanningCenterPerson(phoneOrEmail)
+      if (person && person.emails.length && person.phoneNumbers.length) {
         try {
           await markAttendance(person, phoneOrEmail);
           this.setState({ success: true, submittedPhoneOrEmail: true, loading: false });
         } catch (err) {
-          console.error(err);
           this.setState({ error: err });
         }
       } else {
-        this.setState({ submittedPhoneOrEmail: true, phoneOrEmail, loading: false });
+        this.setState({ submittedPhoneOrEmail: true, phoneOrEmail, loading: false, planningCenterPerson: person });
       }
     } catch (err) {
       this.setState({ loading: false, error: err });
@@ -57,15 +76,28 @@ class AttendanceForm extends Component {
   }
 
   handleSubmitDetails = async (details) => {
-    
+    const person = await planningCenter.createPerson({
+      first_name: details.firstName,
+      last_name: details.lastName
+    });
+    await Promise.all([
+      planningCenter.createPersonEmail(person.id, {
+        address: details.email,
+        location: 'Home'
+      }),
+      planningCenter.createPersonPhoneNumber(person.id, {
+        number: details.phoneNumber,
+        location: 'Home'
+      })
+    ]);
   }
 
   handleUndoEmailOrPhone = () => {
     this.setState({ submittedPhoneOrEmail: false });
   }
 
-  renderEntryForm () {
-    return <EntryForm onSubmitPhoneOrEmail={this.handleSubmitPhoneOrEmail} />
+  renderEntryPointForm () {
+    return <EntryPointForm onSubmitPhoneOrEmail={this.handleSubmitPhoneOrEmail} />
   }
 
   renderSuccess () {
@@ -80,9 +112,19 @@ class AttendanceForm extends Component {
   }
 
   renderDetailsForm () {
-    const existingInput = this.state.phoneOrEmail.includes('@') ? { email: this.state.phoneOrEmail } : { phoneNumber: this.state.phoneOrEmail }
+    const existingInput = {};
+    if (this.state.planningCenterPerson) {
+      existingInput.firstName = this.state.planningCenterPerson.attributes.first_name;
+      existingInput.lastName = this.state.planningCenterPerson.attributes.last_name;
+    }
+    if (this.state.phoneOrEmail.includes('@')) {
+      existingInput.email = this.state.phoneOrEmail;
+    } else {
+      existingInput.phoneNumber = this.state.phoneOrEmail;
+    }
     return <PeopleDetailsForm
       {...existingInput}
+      existingPerson={true}
       onSubmit={this.handleSubmitDetails}
       onUndoEmailOrPhone={this.handleUndoEmailOrPhone}
     />
@@ -90,7 +132,7 @@ class AttendanceForm extends Component {
 
   render () {
     if (!this.state.submittedPhoneOrEmail) {
-      return this.renderEntryForm();
+      return this.renderEntryPointForm();
     }
     if (this.state.success) {
       return this.renderSuccess();

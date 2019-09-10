@@ -52,7 +52,17 @@ class PlanningCenter {
    * @param {boolean=} payload.primary
    */
   async createPersonEmail(personId, payload) {
-    const { data } = await http.post(`/planning_center/${personId}/email`, payload);
+    const { data } = await http.post(`/planning_center/people/${personId}/email`, payload);
+    return data;
+  }
+
+  /**
+   * List email addresses for a person.
+   *
+   * @param {string} personId 
+   */
+  async listPersonEmail(personId) {
+    const { data } = await http.get(`/planning_center/people/${personId}/email`);
     return data;
   }
 
@@ -67,7 +77,18 @@ class PlanningCenter {
    * @param {string=} payload.primary
    */
   async createPersonPhoneNumber(personId, payload) {
-    const { data } = await http.post(`/planning_center/${personId}/phone_numbers`, payload);
+    const { data } = await http.post(`/planning_center/people/${personId}/phone_numbers`, payload);
+    return data;
+  }
+
+
+  /**
+   * List phone numbers for a person.
+   *
+   * @param {string} personId
+   */
+  async listPersonPhoneNumber(personId) {
+    const { data } = await http.get(`/planning_center/people/${personId}/phone_numbers`);
     return data;
   }
 }

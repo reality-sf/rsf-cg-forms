@@ -4,11 +4,11 @@ This is the repository for various forms for Reality SF.
 
 ## Project Architecture
 
-The repository is split into multiple logical applications, each its own create-react-app instance. Each app has its own folder within [`apps/`](apps/), and gets deployed to its own set of GitHub Pages.
+Each form is its own logical create-react-app instance. Each app has its own folder within [`apps/`](apps/), and gets deployed to its own set of GitHub Pages.
 
 Shared files are placed within the `shared` directory. This directory is made available to each app by creating a symbolic link from `src/shared` within that app's directory to the project root's `shared` folder.
 
-## Creating a new form
+## Creating a new app
 
 1. Within the project root, run `create-react-app apps/<app_name>`. Make sure you have [`create-react-app`](https://facebook.github.io/create-react-app/docs/getting-started) installed. This will create a new directory at `apps/<app_name>`.
 2. Change your directory to `apps/<app_name>`.
@@ -29,3 +29,7 @@ export TARGET_SITE=apps/<app_name>
 export ENV=staging # this is only needed if we want to deploy into staging.
 ./scripts/deploy
 ```
+
+## Local Development
+
+To develop each sub-app, navigate to that project's directory, and run `npm start`. This will start create-react-app, with live reloading as you edit the codebase.

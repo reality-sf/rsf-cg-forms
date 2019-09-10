@@ -5,9 +5,9 @@ import Input from "../shared/components/Input";
 import React, { Component } from "react";
 
 /**
- * The entry point to the attendance form. Accepts phonr or email input.
+ * The entry point to the attendance form. Accepts phone or email input.
  */
-class EntryForm extends Component {
+class EntryPointForm extends Component {
 
   constructor (props) {
     super(props);
@@ -43,4 +43,4 @@ class EntryForm extends Component {
   }
 }
 
-export default EntryForm;
+export default EntryPointForm;

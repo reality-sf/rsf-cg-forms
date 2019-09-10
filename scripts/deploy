@@ -6,9 +6,18 @@ TARGET_SITE=${TARGET_SITE:-apps/cg-leaders}
 PATH=$PATH:$(pwd)/node_modules/.bin
 ENV=${ENV:-prod}
 
+load_env () {
+  for s in $(cat env.json | jq -r ".$ENV | to_entries | map(\"\(.key)=\(.value | tostring)\") |.[]" ); do
+    export $s
+  done
+}
+
 main () {
   local app_name=$(basename $TARGET_SITE)
   local repo=$(cat deployment.json | jq -r ".[\"$app_name\"].$ENV")
+
+  load_env
+
   echo "Deploying $app_name to $repo"
   cd $TARGET_SITE
   npm install
