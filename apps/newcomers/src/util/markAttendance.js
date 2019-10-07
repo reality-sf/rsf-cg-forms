@@ -1,16 +1,33 @@
 import airtable from "../shared/clients/airtable";
 import _ from "lodash";
 
-const getOrCreatePerson = async (person, emailOrPhone) => {
-  const [airtablePerson] = await airtable.findPerson({ Email: emailOrPhone, 'Phone Number': emailOrPhone });
+/**
+ * Update a person's details, unless their first name, last name and email already match.
+ */
+const updatePersonIfNeeded = async (airtablePerson, planningCenterPerson) => {
+  if (airtablePerson['First Name'] === planningCenterPerson.attributes.first_name &&
+    airtablePerson['Last Name'] === planningCenterPerson.attributes.last_name &&
+    airtablePerson['Email'] === planningCenterPerson.emails[0].attributes.address) {
+      return;
+  }
+  await airtable.updatePerson({
+    ...airtablePerson,
+    'First Name': planningCenterPerson.attributes.first_name,
+    'Last Name': planningCenterPerson.attributes.last_name,
+    'Email': planningCenterPerson.emails[0].attributes.address
+  });
+}
+
+const getOrCreatePerson = async (planningCenterPerson) => {
+  const [airtablePerson] = await airtable.findPerson({ 'Planning Center ID': planningCenterPerson.id });
   if (airtablePerson) {
     return airtablePerson;
   }
-  const extraDetails = emailOrPhone.indexOf('@') > -1 ? 'Email' : 'Phone Number';
   const createdPerson = await airtable.createPerson({
-    'First Name': person.attributes.first_name,
-    'Last Name': person.attributes.last_name,
-    [extraDetails]: emailOrPhone
+    'First Name': planningCenterPerson.attributes.first_name,
+    'Last Name': planningCenterPerson.attributes.last_name,
+    'Email': planningCenterPerson.emails[0].attributes.address,
+    'Planning Center ID': planningCenterPerson.id
   });
   return createdPerson;
 };
@@ -26,14 +43,17 @@ const getOrCreateAttendance = async () => {
 };
 
 /**
- * Given a person record from Planning Center, mark attendance for this newcomer.
+ * Given a person record from Planning Center, mark attendance for this newcomer. This will upsert a person into
+ * airtable if they don't already exist.
  *
- * @param {*} person                The person record returned from Planning Center.
- * @param {string} phonerOrEmail    The phone number or email address belonging to this person.
+ * @param {*} planningCenterPerson                The person record returned from Planning Center.
+ * @param {string} email            The email address belonging to this person.
  */
-const markAttendance = async (person, phonerOrEmail) => {
+const markAttendance = async (planningCenterPerson, email) => {
   const attendance = await getOrCreateAttendance();
-  const airtablePerson = await getOrCreatePerson(person, phonerOrEmail);
+  const airtablePerson = await getOrCreatePerson(planningCenterPerson, email);
+  // Update this person in case any details don't match
+  await updatePersonIfNeeded(airtablePerson, planningCenterPerson);
   await airtable.updateAttendance({
     ...attendance,
     'Person': _.uniq([

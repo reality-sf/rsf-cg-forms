@@ -2,24 +2,28 @@ import React, { Component } from "react";
 import LaddaButton, { S } from "react-ladda";
 import planningCenter from "../shared/clients/planningCenter";
 import PropTypes from "prop-types";
-import PeopleDetailsForm from "./PeopleDetailsForm";
+import NewPersonForm from "./NewPersonForm";
 import EntryPointForm from "./EntryPointForm";
 import markAttendance from "../util/markAttendance";
+import MissingEmailForm from "./MissingEmailForm";
 
 /**
  * The attendance form for newcomers groups. This manages the overall state of the attendance form, using
- * `EntryPointForm` and `PeopleDetailsForm` to gather individual pieces of information.
+ * `EntryPointForm` and `NewPersonForm` to gather individual pieces of information.
  */
 class AttendanceForm extends Component {
 
   static propTypes = {
-    onMarkedAttendance: PropTypes.func.isRequired
+    onMarkedAttendance: PropTypes.func.isRequired,
+    onError: PropTypes.func.isRequired,
   }
 
   constructor (props) {
     super(props);
     this.state = {
-      phoneOrEmail: "",
+
+      email: "",
+      phoneNumber: "",
       /**
        * The `person` object we've received from planning center, including their phone number and email address.
        */
@@ -28,50 +32,26 @@ class AttendanceForm extends Component {
        * The user has submitted their phone number or email address.
        */
       submittedPhoneOrEmail: false,
-      /**
-       * We have marked attendance. At this phase, we're showing a button to complete the attendance.
-       */
-      success: false,
-      loading: false,
-      error: null,
     };
   }
 
-  findPlanningCenterPerson = async (phoneOrEmail) => {
-    const [person] = await planningCenter.findPerson({
-      where: {
-        search_name_or_email_or_phone_number: phoneOrEmail
-      }
-    });
-    if (!person) {
-      return null;
+  handleReceivedPhoneOrEmail = async ({ person, email, phoneNumber }) => {
+    if (person && person.emails.length) {
+      // If person and their email exists, we already have all the necessary information from this person, so we'll go
+      // ahead and mark attendance.
+      this.handleReceivedPerson(person);
+    } else {
+      // Otherwise, we need to collect more information.
+      this.setState({ submittedPhoneOrEmail: true, email, phoneNumber, planningCenterPerson: person });
     }
-    const [emails, phoneNumbers] = await Promise.all([
-      planningCenter.listPersonEmail(person.id),
-      planningCenter.listPersonPhoneNumber(person.id)
-    ])
-    return {
-      ...person,
-      emails,
-      phoneNumbers
-    };
   }
 
-  handleSubmitPhoneOrEmail = async (phoneOrEmail) => {
+  handleReceivedPerson = async (person) => {
     try {
-      const person = await this.findPlanningCenterPerson(phoneOrEmail)
-      if (person && person.emails.length && person.phoneNumbers.length) {
-        try {
-          await markAttendance(person, phoneOrEmail);
-          this.setState({ success: true, submittedPhoneOrEmail: true, loading: false });
-        } catch (err) {
-          this.setState({ error: err });
-        }
-      } else {
-        this.setState({ submittedPhoneOrEmail: true, phoneOrEmail, loading: false, planningCenterPerson: person });
-      }
+      await markAttendance(person);
+      this.props.onMarkedAttendance();
     } catch (err) {
-      this.setState({ loading: false, error: err });
+      this.props.onError(err);
     }
   }
 
@@ -92,12 +72,15 @@ class AttendanceForm extends Component {
     ]);
   }
 
-  handleUndoEmailOrPhone = () => {
+  handleUndo = () => {
     this.setState({ submittedPhoneOrEmail: false });
   }
 
   renderEntryPointForm () {
-    return <EntryPointForm onSubmitPhoneOrEmail={this.handleSubmitPhoneOrEmail} />
+    return <EntryPointForm
+      onReceivedPhoneOrEmail={this.handleReceivedPhoneOrEmail}
+      onError={this.props.onError}
+    />;
   }
 
   renderSuccess () {
@@ -108,34 +91,39 @@ class AttendanceForm extends Component {
         data-size={S}
         data-color="blue"
       >Next</LaddaButton>
-    </div>
+    </div>;
   }
 
   renderDetailsForm () {
-    const existingInput = {};
+    const existingInput = {
+      email: this.state.email,
+      phoneNumber: this.state.phoneNumber
+    };
     if (this.state.planningCenterPerson) {
       existingInput.firstName = this.state.planningCenterPerson.attributes.first_name;
       existingInput.lastName = this.state.planningCenterPerson.attributes.last_name;
     }
-    if (this.state.phoneOrEmail.includes('@')) {
-      existingInput.email = this.state.phoneOrEmail;
+    if (this.state.planningCenterPerson) {
+      return <MissingEmailForm
+        {...existingInput}
+        planningCenterPerson={this.state.planningCenterPerson}
+        onReceivedDetails={this.handleReceivedPerson}
+        onUndo={this.handleUndo}
+        onError={this.props.onError}
+      />;
     } else {
-      existingInput.phoneNumber = this.state.phoneOrEmail;
+      return <NewPersonForm
+        {...existingInput}
+        onReceivedDetails={this.handleReceivedPerson}
+        onUndo={this.handleUndo}
+        onError={this.props.onError}
+      />;
     }
-    return <PeopleDetailsForm
-      {...existingInput}
-      existingPerson={true}
-      onSubmit={this.handleSubmitDetails}
-      onUndoEmailOrPhone={this.handleUndoEmailOrPhone}
-    />
   }
 
   render () {
     if (!this.state.submittedPhoneOrEmail) {
       return this.renderEntryPointForm();
-    }
-    if (this.state.success) {
-      return this.renderSuccess();
     }
     return this.renderDetailsForm();
   }

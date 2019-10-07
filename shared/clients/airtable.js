@@ -43,6 +43,7 @@ class Airtable {
    * @param {object} params 
    * @param {string=} params.Email
    * @param {string=} params['Phone Number']
+   * @param {string=} params['Planning Center ID']
    */
   async findPerson(params) {
     const { data } = await http.get(`/airtable/people`, { params });
