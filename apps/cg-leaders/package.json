@@ -11,7 +11,7 @@
     "react-dom": "^16.7.0",
     "react-ladda": "^6.0.0",
     "react-progress-button": "^5.1.0",
-    "react-scripts": "3.0.1",
+    "react-scripts": "5.0.1",
     "react-select": "^2.3.0",
     "react-spinners": "^0.5.1",
     "styled-components": "^4.1.3"
